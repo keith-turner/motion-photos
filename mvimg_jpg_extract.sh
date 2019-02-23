@@ -1,9 +1,11 @@
 #!/bin/bash
 
+set -e
+
 function extract {
-  local file=$1
+  local file="$1"
   
-  local newFile=${file/[.]jpg/.mp4}
+  local newFile="${file/[.]jpg/.mp4}"
 
   if [[ -f "$newFile" ]]; then
     echo "File $newFile exists, so ignoring $file"
@@ -17,7 +19,7 @@ function extract {
       local offset=$(( ${lines[0]} - 3))
 
       # extract everything beginning at offset to another file
-      tail -c +$offset $file > $newFile
+      tail -c +$offset "$file" > "$newFile"
     else
       echo "Not processing $file because the string 'ftypmp42' did not occur exactly once in file"
     fi
@@ -26,7 +28,7 @@ function extract {
 
 for f in "$@"; do
   if [[ "$f" == MVIMG*jpg ]]; then
-    extract $f
+    extract "$f"
   else
     echo "Ignoring $f because its file name does not match MVIMG*jpg pattern"
   fi
