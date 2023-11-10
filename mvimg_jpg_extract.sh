@@ -20,6 +20,9 @@ function extract {
 
       # extract everything beginning at offset to another file
       tail -c +$offset "$file" > "$newFile"
+
+      # preserve original timestamps
+      touch -r "$file" "$newFile"
     else
       echo "Not processing $file because the string 'ftypmp42' did not occur exactly once in file"
     fi
